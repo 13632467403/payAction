@@ -10,14 +10,14 @@ class WxPayConfig
 	/**
 	 * TODO: 修改这里配置为您自己申请的商户信息
 	 * 微信公众号信息配置
-	 * 
+	 *
 	 * APPID：绑定支付的APPID（必须配置，开户邮件中可查看）
-	 * 
+	 *
 	 * MCHID：商户号（必须配置，开户邮件中可查看）
-	 * 
+	 *
 	 * KEY：商户支付密钥，参考开户邮件设置（必须配置，登录商户平台自行设置）
 	 * 设置地址：https://pay.weixin.qq.com/index.php/account/api_cert
-	 * 
+	 *
 	 * APPSECRET：公众帐号secert（仅JSAPI支付的时候需要配置， 登录公众平台，进入开发者中心可设置），
 	 * 获取地址：https://mp.weixin.qq.com/advanced/advanced?action=dev&t=advanced/dev&token=2005451881&lang=zh_CN
 	 * @var string
@@ -26,7 +26,7 @@ class WxPayConfig
 	const MCHID = '1225312702';
 	const KEY = 'e10adc3949ba59abbe56e057f20f883e';
 	const APPSECRET = '01c6d59a3f9024db6336662ac95c8e74';
-	
+
 	//=======【证书路径设置】=====================================
 	/**
 	 * TODO：设置商户证书路径
@@ -36,7 +36,7 @@ class WxPayConfig
 	 */
 	const SSLCERT_PATH = '../cert/apiclient_cert.pem';
 	const SSLKEY_PATH = '../cert/apiclient_key.pem';
-	
+
 	//=======【curl代理设置】===================================
 	/**
 	 * TODO：这里设置代理机器，只有需要代理的时候才设置，不需要代理，请设置为0.0.0.0和0
@@ -46,7 +46,7 @@ class WxPayConfig
 	 */
 	const CURL_PROXY_HOST = "0.0.0.0";//"10.152.18.220";
 	const CURL_PROXY_PORT = 0;//8080;
-	
+
 	//=======【上报信息配置】===================================
 	/**
 	 * TODO：接口调用上报等级，默认紧错误上报（注意：上报超时间为【1s】，上报无论成败【永不抛出异常】，

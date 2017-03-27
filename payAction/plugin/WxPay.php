@@ -1,10 +1,10 @@
 <?php
-require_once "weixin/WeixinPayBaseAction.php";
+require_once "weixin/WxPayBaseAction.php";
 /**
  * 微信支付操作类
  * Author: LiuZhengYong
  */
-class WeixinPay extends payStandard
+class WxPay extends payStandard
 {
     /**
      * 交易类型
@@ -34,6 +34,46 @@ class WeixinPay extends payStandard
     }
 
     /**
+     * 支付处理
+     * @param $param
+     * @return mixed|void
+     */
+    public function getPayRequest($param)
+    {
+        return $this->getResult("Pay",$param);
+    }
+
+    /**
+     * 获取回调结果
+     * @param $param
+     * @return mixed|void
+     */
+    public function getNotifyRequest($param)
+    {
+        return $this->getResult("Notify",$param);
+    }
+
+    /**
+     * 获取退款结果
+     * @param $param
+     * @return mixed|void
+     */
+    public function getRefundRequest($param)
+    {
+        return $this->getResult("Refund",$param);
+    }
+
+    /**
+     * 获取查账结果
+     * @param $param
+     * @return mixed|void
+     */
+    public function getQueryRequest($param)
+    {
+        return $this->getResult("Query",$param);
+    }
+
+    /**
      * 获取处理结果
      * @param $typeAction
      * @param $param
@@ -47,7 +87,7 @@ class WeixinPay extends payStandard
             if( !$input ){
                 return $this->getError();
             }
-            $fun = $typeAction."BaseAction";
+            $fun = $this->typeAction."BaseAction";
             $result = $this->BaseAction->$fun($input);
             return $this->doReturnResult($result);
         }catch(Exception $ex){
@@ -62,7 +102,7 @@ class WeixinPay extends payStandard
      */
     public function doReturnResult($PayResult)
     {
-        if ($PayResult["return_code"]=="SUCCESS") {
+        if ($PayResult["result_code"]=="SUCCESS") {
             switch ($this->typeAction) {
                 case "Pay";
                     $result = $this->Trade_type == "NATIVE" ? $PayResult['code_url'] :
@@ -85,7 +125,7 @@ class WeixinPay extends payStandard
             $data = array("result" => $result);
             return $this->output($PayResult['return_msg'],1,$data);
         }else{
-            return $this->output($PayResult['return_msg'],$PayResult['return_code']);
+            return $this->output($PayResult['err_code_des'],$PayResult['result_code']);
         }//if
     }
 
@@ -119,7 +159,7 @@ class WeixinPay extends payStandard
      * @param $input
      * @return array
      */
-    public function checkInput($input)
+    private function checkInput($input)
     {
         $param = array();
         $param['Out_trade_no'] = $input['trade_no'];

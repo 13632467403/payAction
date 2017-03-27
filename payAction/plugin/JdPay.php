@@ -1,7 +1,7 @@
 <?php
 require_once "jdpay/JdPayBaseAction.php";
 /**
- * 微信支付操作类
+ * 京东支付操作类
  * Author: LiuZhengYong
  */
 class JdPay extends payStandard
@@ -33,6 +33,46 @@ class JdPay extends payStandard
     }
 
     /**
+     * 支付处理
+     * @param $param
+     * @return mixed|void
+     */
+    public function getPayRequest($param)
+    {
+        return $this->getResult("Pay",$param);
+    }
+
+    /**
+     * 获取回调结果
+     * @param $param
+     * @return mixed|void
+     */
+    public function getNotifyRequest($param)
+    {
+        return $this->getResult("Notify",$param);
+    }
+
+    /**
+     * 获取退款结果
+     * @param $param
+     * @return mixed|void
+     */
+    public function getRefundRequest($param)
+    {
+        return $this->getResult("Refund",$param);
+    }
+
+    /**
+     * 获取查账结果
+     * @param $param
+     * @return mixed|void
+     */
+    public function getQueryRequest($param)
+    {
+        return $this->getResult("Query",$param);
+    }
+
+    /**
      * 获取处理结果
      * @param $typeAction
      * @param $param
@@ -60,7 +100,7 @@ class JdPay extends payStandard
      */
     public function doReturnResult($PayResult)
     {
-        $rt = $this->xmlToArray($PayResult);
+        $rt = xmlToArray($PayResult);
         $rt = $rt['DATA'];
         $desc = $rt['RETURN']['DESC'];
         if ($rt['RETURN']['CODE']=="0000") {
@@ -112,7 +152,7 @@ class JdPay extends payStandard
                 $input["trade_note"] = $input["order_name"];
                 $input["trade_amount"] = $input["amount"]*100;;
                 $input["card_idtype"] = "I";
-                $input["card_type"] = $this->Trade_type == "JdCredit" ? "C" : "D";;
+                $input["card_type"] = $this->Trade_type == "Credit" ? "C" : "D";;
                 $input["trade_type"] = empty($input['trade_code']) ? "V" : "S";  //V签约 S消费
                 break;
             case "Notify";

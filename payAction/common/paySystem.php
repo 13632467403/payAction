@@ -9,11 +9,11 @@ class paySystem
      * @var string 错误信息
      *
      */
-    private $_error_msg = null;
+    private $_error_msg = "系统异常，请稍后重试";
     /**
      * @var int 错误代码
      */
-    private $_error_code = -1;
+    private $_error_code = 0001;
 
     /**
      * 设置错误信息
@@ -50,26 +50,13 @@ class paySystem
     protected function output($return_msg, $return_code ,$data = "")
     {
         $return =  array(
-            "return_msg"    =>  $return_msg ? $return_msg : "系统异常，请稍后重试",
-            "return_code"   =>  $return_code ? $return_code :  "0001",
+            "return_msg"    =>  $return_msg ? : $this->_error_msg,
+            "return_code"   =>  $return_code ? : $this->_error_code,
         );
         if(!empty($data)){
             $return["data"]  =  $data;
         }
         return $return;
-    }
-
-    /**
-     * xml转为数组
-     * @param string $xml
-     * @return array
-     */
-    public function xmlToArray($xml='')
-    {
-        if(!class_exists("xmlToArrayParser"))
-            include_once "tool/xmlToArrayParser.php";
-        $xml_obj = new xmlToArrayParser($xml);
-        return $xml_obj->array;
     }
 
     function __call($name, $arguments)
